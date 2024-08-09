@@ -2,6 +2,7 @@ plugins {
 	id 'java'
 	id 'org.springframework.boot' version '3.3.2'
 	id 'io.spring.dependency-management' version '1.1.6'
+	id 'org.flywaydb.flyway' version '10.17.0'
 }
 
 group = 'com.movie'
@@ -15,6 +16,9 @@ java {
 
 repositories {
 	mavenCentral()
+	maven {
+		url "https://plugins.gradle.org/m2/"
+	}
 }
 
 dependencies {
@@ -28,4 +32,34 @@ dependencies {
 
 tasks.named('test') {
 	useJUnitPlatform()
+}
+
+// set flyway configuration
+flyway {
+	url = 'jdbc:h2:file:./data/mydatabase'
+	user = 'sa'
+	password = 'password'
+	locations = ['classpath:db/migration']
+	cleanDisabled = false
+}
+
+tasks.register('createMigration') {
+	doLast {
+		if (!project.hasProperty('description')) {
+			throw new GradleException("Please provide a description for the migration using -Pdescription=<description>")
+		}
+
+		def description = project.property('description')
+		def timestamp = new Date().format("yyyyMMddHHmmss")
+		def migrationName = "V${timestamp}__${description}.sql"
+		def migrationDir = file('src/main/resources/db/migration')
+
+		if (!migrationDir.exists()) {
+			migrationDir.mkdirs()
+		}
+
+		def migrationFile = new File(migrationDir, migrationName)
+		migrationFile.createNewFile()
+		println "Created migration file: ${migrationFile.path}"
+	}
 }
