@@ -36,10 +36,10 @@ tasks.named('test') {
 
 // set flyway configuration
 flyway {
-	url = 'jdbc:h2:file:./data/mydatabase'
+	url = "jdbc:h2:file:${System.getProperty('user.dir')}/data/mydatabase"
 	user = 'sa'
 	password = 'password'
-	locations = ['classpath:db/migration']
+	locations = ['filesystem:src/main/resources/db/migration']
 	cleanDisabled = false
 }
 
