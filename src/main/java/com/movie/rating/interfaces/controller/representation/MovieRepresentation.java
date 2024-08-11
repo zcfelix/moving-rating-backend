@@ -4,9 +4,7 @@ import com.movie.rating.domain.Movie;
 
 public class MovieRepresentation {
     private Integer id;
-
     private String title;
-
     private Integer runtime;
     private String director;
     private String actors;
