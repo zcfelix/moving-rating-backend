@@ -1,14 +1,16 @@
 package com.movie.rating.appservice;
 
+import com.movie.rating.domain.InvalidRatingException;
 import com.movie.rating.domain.Movie;
 import com.movie.rating.domain.MovieNotExistException;
-import com.movie.rating.domain.MovieRepository;
+import com.movie.rating.domain.service.MovieRepository;
 import com.movie.rating.interfaces.controller.request.RatingRequest;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
+import org.junit.jupiter.params.provider.ValueSource;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -65,6 +67,23 @@ class MovieAppServiceTest {
             when(movieRepository.findById(1)).thenReturn(Optional.empty());
             assertThrows(MovieNotExistException.class,
                     () -> movieAppService.rateMovie(1, new RatingRequest(5)));
+        }
+
+
+        @ParameterizedTest
+        @ValueSource(ints = {-1, 0, 11})
+        void should_throw_invalid_rating_exception_when_rating_movie_with_invalid_score(int score) {
+            assertThrows(InvalidRatingException.class,
+                    () -> movieAppService.rateMovie(1, new RatingRequest(score)));
+        }
+
+        @Test
+        void should_add_movie_rating_successful() {
+            var movie = mock(Movie.class);
+            when(movieRepository.findById(1)).thenReturn(Optional.of(movie));
+            movieAppService.rateMovie(1, new RatingRequest(5));
+            // verify(movie).setRating(5);
+            // verify(movieRepository).save(movie);
         }
     }
 

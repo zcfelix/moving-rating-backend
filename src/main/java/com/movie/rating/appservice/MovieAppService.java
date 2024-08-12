@@ -1,9 +1,9 @@
 package com.movie.rating.appservice;
 
-import com.movie.rating.domain.ErrorCode;
 import com.movie.rating.domain.Movie;
 import com.movie.rating.domain.MovieNotExistException;
-import com.movie.rating.domain.MovieRepository;
+import com.movie.rating.domain.service.MovieRepository;
+import com.movie.rating.domain.Rating;
 import com.movie.rating.interfaces.controller.request.RatingRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -33,12 +33,15 @@ public class MovieAppService {
 
 
     public void rateMovie(Integer movieId, RatingRequest ratingRequest) {
+        Rating rating = Rating.create(ratingRequest.score());
+
         Movie movie = movieRepository.findById(movieId)
-                .orElseThrow(() -> new MovieNotExistException(ErrorCode.MOVIE_NOT_EXIST, Map.of(
+                .orElseThrow(() -> new MovieNotExistException(Map.of(
                         "movieId", movieId
                 )));
 
-        // movie.setRating(ratingRequest.getRating());
+        // movie.addRating(rating);
         // movieRepository.save(movie);
+
     }
 }

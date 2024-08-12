@@ -1,4 +1,4 @@
 package com.movie.rating.interfaces.controller.request;
 
-public record RatingRequest(Integer rating) {
+public record RatingRequest(Integer score) {
 }
