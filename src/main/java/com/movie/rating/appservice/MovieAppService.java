@@ -35,13 +35,11 @@ public class MovieAppService {
     public void rateMovie(Integer movieId, RatingRequest ratingRequest) {
         Rating rating = Rating.create(ratingRequest.score());
 
-        Movie movie = movieRepository.findById(movieId)
-                .orElseThrow(() -> new MovieNotExistException(Map.of(
-                        "movieId", movieId
-                )));
+        Movie movie = movieRepository
+                .findById(movieId)
+                .orElseThrow(() -> new MovieNotExistException(Map.of("movieId", movieId)));
 
-        // movie.addRating(rating);
-        // movieRepository.save(movie);
-
+        movie.addRating(rating);
+        movieRepository.save(movie);
     }
 }

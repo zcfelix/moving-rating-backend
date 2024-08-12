@@ -22,8 +22,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class MovieAppServiceTest {
@@ -81,9 +80,11 @@ class MovieAppServiceTest {
         void should_add_movie_rating_successful() {
             var movie = mock(Movie.class);
             when(movieRepository.findById(1)).thenReturn(Optional.of(movie));
+
             movieAppService.rateMovie(1, new RatingRequest(5));
-            // verify(movie).setRating(5);
-            // verify(movieRepository).save(movie);
+
+            verify(movie).addRating(argThat(rating -> rating.getScore() == 5));
+            verify(movieRepository).save(movie);
         }
     }
 

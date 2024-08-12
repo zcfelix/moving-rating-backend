@@ -1,21 +1,23 @@
 package com.movie.rating.domain;
 
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 @Entity
 @Table(name = "Movies")
 public class Movie {
     @Id
     private Integer id;
-
     private String title;
-
     private Integer runtime;
     private String director;
     private String actors;
@@ -23,7 +25,15 @@ public class Movie {
     @Column(name = "poster_url")
     private String posterUrl;
 
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "movie")
+    private Set<Rating> ratings = new HashSet<>();
+
     public Movie() {
+    }
+
+    public void addRating(Rating rating) {
+        rating.setMovie(this);
+        this.ratings.add(rating);
     }
 
     public Integer getId() {
