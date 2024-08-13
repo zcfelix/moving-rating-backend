@@ -11,6 +11,8 @@ import io.swagger.v3.oas.annotations.media.ExampleObject;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import jakarta.validation.Valid;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
@@ -27,6 +29,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/movies")
 public class MovieController {
 
+    private static final Logger logger = LoggerFactory.getLogger(MovieController.class);
 
     private final MovieAppService movieAppService;
 
@@ -83,6 +86,7 @@ public class MovieController {
     @PostMapping(path = "/{movieId}/ratings")
     public ResponseEntity<Void> createRating(@PathVariable("movieId") Integer movieId,
                                              @RequestBody @Valid RatingRequest ratingRequest) {
+        logger.info("Received rating request for movieId: {}, with score: {}", movieId, ratingRequest.score());
         movieAppService.rateMovie(movieId, ratingRequest);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
