@@ -1,12 +1,7 @@
 package com.movie.rating.domain;
 
 
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 import java.util.HashSet;
 import java.util.Objects;
@@ -25,8 +20,11 @@ public class Movie {
     @Column(name = "poster_url")
     private String posterUrl;
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "movie")
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "movie", fetch = FetchType.LAZY)
     private Set<Rating> ratings = new HashSet<>();
+
+    @Column(name = "average_rating")
+    private Double averageRating;
 
     public Movie() {
     }
@@ -34,7 +32,15 @@ public class Movie {
     public Rating addRating(Rating rating) {
         rating.setMovie(this);
         this.ratings.add(rating);
+        this.averageRating = ratings.stream()
+                .mapToInt(Rating::getScore)
+                .average()
+                .orElse(0d);
         return rating;
+    }
+
+    public Double getAverageRating() {
+        return averageRating;
     }
 
     public Integer getId() {

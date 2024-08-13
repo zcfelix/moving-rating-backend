@@ -5,6 +5,7 @@ import com.movie.rating.domain.MovieNotExistException;
 import com.movie.rating.domain.service.MovieRepository;
 import com.movie.rating.domain.Rating;
 import com.movie.rating.interfaces.controller.request.RatingRequest;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -32,6 +33,7 @@ public class MovieAppService {
     }
 
 
+    @Transactional
     public Rating rateMovie(Integer movieId, RatingRequest ratingRequest) {
         Rating rating = Rating.create(ratingRequest.score()); // has business validation when create the rating object
 

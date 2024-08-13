@@ -2,87 +2,34 @@ package com.movie.rating.interfaces.controller.representation;
 
 import com.movie.rating.domain.Movie;
 
-public class MovieRepresentation {
-    private Integer id;
-    private String title;
-    private Integer runtime;
-    private String director;
-    private String actors;
-    private String plot;
-    private String posterUrl;
+import java.text.DecimalFormat;
 
-    public MovieRepresentation() {
-    }
+public record MovieRepresentation(
+        Integer id,
+        String title,
+        Integer runtime,
+        String director,
+        String actors,
+        String plot,
+        String posterUrl,
+        String averageRating) {
 
-    public MovieRepresentation(Integer id, String title, Integer runtime, String director,
-                               String actors, String plot, String posterUrl) {
-        this.id = id;
-        this.title = title;
-        this.runtime = runtime;
-        this.director = director;
-        this.actors = actors;
-        this.plot = plot;
-        this.posterUrl = posterUrl;
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public Integer getRuntime() {
-        return runtime;
-    }
-
-    public void setRuntime(Integer runtime) {
-        this.runtime = runtime;
-    }
-
-    public String getDirector() {
-        return director;
-    }
-
-    public void setDirector(String director) {
-        this.director = director;
-    }
-
-    public String getActors() {
-        return actors;
-    }
-
-    public void setActors(String actors) {
-        this.actors = actors;
-    }
-
-    public String getPlot() {
-        return plot;
-    }
-
-    public void setPlot(String plot) {
-        this.plot = plot;
-    }
-
-    public String getPosterUrl() {
-        return posterUrl;
-    }
-
-    public void setPosterUrl(String posterUrl) {
-        this.posterUrl = posterUrl;
-    }
+    private static final DecimalFormat DECIMAL_FORMAT = new DecimalFormat("0.0");
 
     public static MovieRepresentation from(Movie movie) {
-        return new MovieRepresentation(movie.getId(), movie.getTitle(), movie.getRuntime(),
-                movie.getDirector(), movie.getActors(), movie.getPlot(), movie.getPosterUrl());
+        return new MovieRepresentation(
+                movie.getId(),
+                movie.getTitle(),
+                movie.getRuntime(),
+                movie.getDirector(),
+                movie.getActors(),
+                movie.getPlot(),
+                movie.getPosterUrl(),
+                formatAverageRating(movie.getAverageRating())
+        );
+    }
+
+    private static String formatAverageRating(Double averageRating) {
+        return averageRating != null ? DECIMAL_FORMAT.format(averageRating) : "0.0";
     }
 }

@@ -24,7 +24,8 @@ class MovieControllerTest extends AbstractControllerTest {
                 .andExpect(jsonPath("$.contents[0].director").isString())
                 .andExpect(jsonPath("$.contents[0].actors").isString())
                 .andExpect(jsonPath("$.contents[0].plot").isString())
-                .andExpect(jsonPath("$.contents[0].posterUrl").isString());
+                .andExpect(jsonPath("$.contents[0].posterUrl").isString())
+                .andExpect(jsonPath("$.contents[0].averageRating").isString());
     }
 
     @Test
