@@ -78,7 +78,7 @@ public class MovieController {
         return ResponseEntity.ok(
                 new PageRepresentation<>(
                         page.map(MovieRepresentation::from).getContent(),
-                        page.getNumberOfElements()
+                        page.getTotalElements()
                 )
         );
     }

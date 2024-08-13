@@ -1,7 +1,9 @@
 # Tasks
 - [x] add logs
 - [ ] add response links and entity after rating
-- [ ] change total count of page response
+- [x] change total count of page response
+- [ ] web layer unit test
+- [ ] repo layer unit test
 - [ ] add average rating cache when rating is added
 - [ ] add average rating in list movies api response
 - [ ] add search support
