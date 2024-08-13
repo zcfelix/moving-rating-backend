@@ -1,7 +1,7 @@
 package com.movie.rating.interfaces.controller;
 
 import com.movie.rating.appservice.MovieAppService;
-import com.movie.rating.domain.Movie;
+import com.movie.rating.domain.model.Movie;
 import com.movie.rating.interfaces.controller.representation.MovieRepresentation;
 import com.movie.rating.interfaces.controller.representation.PageRepresentation;
 import com.movie.rating.interfaces.controller.representation.RatingRepresentation;

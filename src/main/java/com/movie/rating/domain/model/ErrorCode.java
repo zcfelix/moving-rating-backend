@@ -1,4 +1,4 @@
-package com.movie.rating.domain;
+package com.movie.rating.domain.model;
 
 public enum ErrorCode {
     MOVIE_NOT_EXIST(404),

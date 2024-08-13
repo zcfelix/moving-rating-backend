@@ -1,6 +1,6 @@
 package com.movie.rating.interfaces.controller.representation;
 
-import com.movie.rating.domain.Rating;
+import com.movie.rating.domain.model.Rating;
 
 import static com.movie.rating.interfaces.controller.representation.AverageRatingFormatter.formatAverageRating;
 

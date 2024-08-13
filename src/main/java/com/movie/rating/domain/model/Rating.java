@@ -1,4 +1,4 @@
-package com.movie.rating.domain;
+package com.movie.rating.domain.model;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

@@ -1,7 +1,7 @@
 package com.movie.rating.interfaces.controller;
 
-import com.movie.rating.domain.AppException;
-import com.movie.rating.domain.ErrorCode;
+import com.movie.rating.domain.model.AppException;
+import com.movie.rating.domain.model.ErrorCode;
 import com.movie.rating.interfaces.controller.representation.ErrorDetail;
 import jakarta.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;

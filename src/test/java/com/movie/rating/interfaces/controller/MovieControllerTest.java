@@ -1,7 +1,7 @@
 package com.movie.rating.interfaces.controller;
 
 import com.movie.rating.appservice.MovieAppService;
-import com.movie.rating.domain.service.MovieRepository;
+import com.movie.rating.domain.repository.MovieRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;

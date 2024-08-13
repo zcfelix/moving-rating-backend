@@ -8,9 +8,7 @@
 - [x] change the h2 mode to server
 - [x] web layer unit test
 - [x] return average score after rating
-- [ ] repo layer unit test
 - [ ] refine the jpa query for getting movies with average rating
-- [ ] refactor: change the repository location and extract interfaces
-- [ ] refactor: add model, repo, service packages under domain package
+- [x] refactor: add model, repo, service packages under domain package
 - [ ] README
 - [ ] update API documents
