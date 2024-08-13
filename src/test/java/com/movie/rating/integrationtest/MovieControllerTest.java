@@ -12,12 +12,30 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 class MovieControllerTest extends AbstractControllerTest {
 
     @Test
-    void should_list_movies() throws Exception {
+    void should_return_200_when_list_movies_successful() throws Exception {
         mockMvc.perform(get("/movies")
                         .param("pageNumber", "1")
-                        .param("pageSize", "50"))
+                        .param("pageSize", "10"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.contents.size()").value(25)) // prepared 25 movies in test data
+                .andExpect(jsonPath("$.contents.size()").value(10))
+                .andExpect(jsonPath("$.totalSize").value(25)) // prepared 25 movies in test data
+                .andExpect(jsonPath("$.contents[0].id").isNumber())
+                .andExpect(jsonPath("$.contents[0].title").isString())
+                .andExpect(jsonPath("$.contents[0].runtime").isNumber())
+                .andExpect(jsonPath("$.contents[0].director").isString())
+                .andExpect(jsonPath("$.contents[0].actors").isString())
+                .andExpect(jsonPath("$.contents[0].plot").isString())
+                .andExpect(jsonPath("$.contents[0].posterUrl").isString())
+                .andExpect(jsonPath("$.contents[0].averageRating").isString());
+    }
+
+    @Test
+    void should_return_200_when_search_movies_successful() throws Exception {
+        mockMvc.perform(get("/movies")
+                        .param("title", "The Cotton Club"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.contents.size()").value(1))
+                .andExpect(jsonPath("$.totalSize").value(1))
                 .andExpect(jsonPath("$.contents[0].id").isNumber())
                 .andExpect(jsonPath("$.contents[0].title").isString())
                 .andExpect(jsonPath("$.contents[0].runtime").isNumber())

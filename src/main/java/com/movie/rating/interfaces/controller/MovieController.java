@@ -74,8 +74,9 @@ public class MovieController {
     @GetMapping
     public ResponseEntity<PageRepresentation<MovieRepresentation>> listMovies(
             @RequestParam(value = "pageNumber", required = false, defaultValue = "1") Integer pageNumber,
-            @RequestParam(value = "pageSize", required = false, defaultValue = "20") Integer pageSize) {
-        Page<Movie> page = movieAppService.listMovies(pageNumber, pageSize);
+            @RequestParam(value = "pageSize", required = false, defaultValue = "20") Integer pageSize,
+            @RequestParam(value = "title", required = false) String title) {
+        Page<Movie> page = movieAppService.listMovies(pageNumber, pageSize, title);
         return ResponseEntity.ok(
                 new PageRepresentation<>(
                         page.map(MovieRepresentation::from).getContent(),
@@ -84,6 +85,19 @@ public class MovieController {
         );
     }
 
+    @Operation(summary = "Rate a movie", description = "Rate a movie with a score",
+            responses = {
+                    @ApiResponse(responseCode = "201", description = "Rating created",
+                            content = @Content(mediaType = "application/json",
+                                    schema = @Schema(implementation = RatingRepresentation.class),
+                                    examples = @ExampleObject(value = """
+                                                    {
+                                                        "movieId": 1,
+                                                        "score": 5
+                                                    }
+                                            """)))
+            }
+    )
     @PostMapping(path = "/{movieId}/ratings")
     public ResponseEntity<RatingRepresentation> createRating(@PathVariable("movieId") Integer movieId,
                                              @RequestBody @Valid RatingRequest ratingRequest) {

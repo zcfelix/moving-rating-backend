@@ -23,13 +23,19 @@ public class MovieAppService {
         this.movieRepository = movieRepository;
     }
 
-    public Page<Movie> listMovies(Integer pageNumber, Integer pageSize) {
+    public Page<Movie> listMovies(Integer pageNumber, Integer pageSize, String titleToSearch) {
         if (pageNumber < 1 || pageSize <= 0) {  // 1-based page number
             return Page.empty();
         }
 
         // repo use 0-based page index
-        return movieRepository.findAll(PageRequest.of(pageNumber - 1, pageSize));
+        PageRequest pageRequest = PageRequest.of(pageNumber - 1, pageSize);
+
+        if (titleToSearch == null || titleToSearch.isBlank()) {
+            return movieRepository.findAll(pageRequest);
+        } else {
+            return movieRepository.findByTitleContainingIgnoreCase(titleToSearch, pageRequest);
+        }
     }
 
 

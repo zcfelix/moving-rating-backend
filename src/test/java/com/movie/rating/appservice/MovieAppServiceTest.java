@@ -42,7 +42,7 @@ class MovieAppServiceTest {
                 "1, -1",
         })
         void should_return_empty_when_query_movies_with_incorrect_page_number_or_page_size(int pageNumber, int pageSize) {
-            assertTrue(movieAppService.listMovies(pageNumber, pageSize).isEmpty());
+            assertTrue(movieAppService.listMovies(pageNumber, pageSize, "").isEmpty());
         }
 
         @Test
@@ -52,7 +52,7 @@ class MovieAppServiceTest {
             when(movieRepository.findAll(PageRequest.of(0, 2)))
                     .thenReturn(new PageImpl<>(List.of(movie1, movie2)));
 
-            Page<Movie> page = movieAppService.listMovies(1, 2);
+            Page<Movie> page = movieAppService.listMovies(1, 2, "");
             assertEquals(2, page.getNumberOfElements());
             assertEquals(2, page.getContent().size());
             assertEquals(1, page.getTotalPages());
