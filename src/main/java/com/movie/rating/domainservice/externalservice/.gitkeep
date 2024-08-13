@@ -1,0 +1,1 @@
+Adding interfaces of external service, but keeping the implementation of the service in the infrastructure layer.

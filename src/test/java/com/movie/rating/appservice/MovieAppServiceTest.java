@@ -1,10 +1,10 @@
 package com.movie.rating.appservice;
 
-import com.movie.rating.domain.model.InvalidRatingException;
-import com.movie.rating.domain.model.Movie;
-import com.movie.rating.domain.model.MovieNotExistException;
-import com.movie.rating.domain.repository.MovieRepository;
-import com.movie.rating.interfaces.controller.request.RatingRequest;
+import com.movie.rating.domainmodel.InvalidRatingException;
+import com.movie.rating.domainmodel.Movie;
+import com.movie.rating.domainmodel.MovieNotExistException;
+import com.movie.rating.domainservice.repository.MovieRepository;
+import com.movie.rating.infrastructure.controller.request.RatingRequest;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

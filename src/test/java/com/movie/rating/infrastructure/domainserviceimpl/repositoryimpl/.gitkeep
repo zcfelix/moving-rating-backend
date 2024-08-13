@@ -1,0 +1,2 @@
+We don't need to create a repository implementation since we are using the Spring Data JPA repository and Spring
+generates the implementation for us.

@@ -1,0 +1,2 @@
+Using to place the implementation of the external service or domain repository in the infrastructure layer,
+while keeping the interfaces in the domain service layer.
