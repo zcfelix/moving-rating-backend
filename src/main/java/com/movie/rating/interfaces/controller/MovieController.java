@@ -2,6 +2,7 @@ package com.movie.rating.interfaces.controller;
 
 import com.movie.rating.appservice.MovieAppService;
 import com.movie.rating.domain.model.Movie;
+import com.movie.rating.interfaces.controller.representation.ErrorDetail;
 import com.movie.rating.interfaces.controller.representation.MovieRepresentation;
 import com.movie.rating.interfaces.controller.representation.PageRepresentation;
 import com.movie.rating.interfaces.controller.representation.RatingRepresentation;
@@ -18,6 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.ErrorResponse;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -86,6 +88,15 @@ public class MovieController {
     }
 
     @Operation(summary = "Rate a movie", description = "Rate a movie with a score",
+            requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(
+                    required = true,
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = RatingRequest.class),
+                            examples = @ExampleObject(value = """
+                                    {
+                                        "score": 5
+                                    }
+                            """))),
             responses = {
                     @ApiResponse(responseCode = "201", description = "Rating created",
                             content = @Content(mediaType = "application/json",
@@ -93,9 +104,36 @@ public class MovieController {
                                     examples = @ExampleObject(value = """
                                                     {
                                                         "movieId": 1,
-                                                        "score": 5
+                                                        "score": 5,
+                                                        "averageRating": "5.0"
                                                     }
-                                            """)))
+                                            """))),
+                    @ApiResponse(responseCode = "400", description = "Invalid rating score",
+                            content = @Content(mediaType = "application/json",
+                                    schema = @Schema(implementation = ErrorDetail.class),
+                                    examples = @ExampleObject(value = """
+                                                {
+                                                    	"code": "INVALID_RATING",
+                                                        "path": "/movies/1/ratings",
+                                                        "timestamp": "2024-08-13T16:12:02.124414Z",
+                                                        "data": {
+                                                        	"score": "Score must be between 1 and 10"
+                                                        }
+                                                }
+                                        """))),
+                    @ApiResponse(responseCode = "404", description = "Movie not found",
+                            content = @Content(mediaType = "application/json",
+                                    schema = @Schema(implementation = ErrorDetail.class),
+                                    examples = @ExampleObject(value = """
+                                                {
+                                                    	"code": "MOVIE_NOT_EXIST",
+                                                        "path": "/movies/0/ratings",
+                                                        "timestamp": "2024-08-13T16:12:37.937628Z",
+                                                        "data": {
+                                                        	"movieId": 0
+                                                        }
+                                                }
+                                        """)))
             }
     )
     @PostMapping(path = "/{movieId}/ratings")

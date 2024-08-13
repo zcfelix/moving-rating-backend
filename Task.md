@@ -11,4 +11,4 @@
 - [ ] refine the jpa query for getting movies with average rating
 - [x] refactor: add model, repo, service packages under domain package
 - [ ] README
-- [ ] update API documents
+- [x] update API documents
