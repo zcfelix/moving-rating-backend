@@ -2,7 +2,7 @@ package com.movie.rating.interfaces.controller.representation;
 
 import com.movie.rating.domain.Movie;
 
-import java.text.DecimalFormat;
+import static com.movie.rating.interfaces.controller.representation.AverageRatingFormatter.formatAverageRating;
 
 public record MovieRepresentation(
         Integer id,
@@ -14,7 +14,6 @@ public record MovieRepresentation(
         String posterUrl,
         String averageRating) {
 
-    private static final DecimalFormat DECIMAL_FORMAT = new DecimalFormat("0.0");
 
     public static MovieRepresentation from(Movie movie) {
         return new MovieRepresentation(
@@ -29,7 +28,4 @@ public record MovieRepresentation(
         );
     }
 
-    private static String formatAverageRating(Double averageRating) {
-        return averageRating != null ? DECIMAL_FORMAT.format(averageRating) : "0.0";
-    }
 }

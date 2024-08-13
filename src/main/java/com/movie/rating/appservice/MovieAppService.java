@@ -2,8 +2,8 @@ package com.movie.rating.appservice;
 
 import com.movie.rating.domain.Movie;
 import com.movie.rating.domain.MovieNotExistException;
-import com.movie.rating.domain.service.MovieRepository;
 import com.movie.rating.domain.Rating;
+import com.movie.rating.domain.service.MovieRepository;
 import com.movie.rating.interfaces.controller.request.RatingRequest;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -54,6 +54,7 @@ class MovieControllerIT extends AbstractControllerIT {
                                 {"score": 5}"""))
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.movieId").value(1))
-                .andExpect(jsonPath("$.score").value(5));
+                .andExpect(jsonPath("$.score").value(5))
+                .andExpect(jsonPath("$.averageRating").value("5.0"));
     }
 }

@@ -8,6 +8,7 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 import java.util.Map;
+import java.util.Objects;
 
 import static jakarta.persistence.GenerationType.IDENTITY;
 
@@ -56,13 +57,16 @@ public class Rating {
     @Override
     public final boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof Rating rating1)) return false;
+        if (!(o instanceof Rating rating)) return false;
 
-        return score.equals(rating1.score);
+        return Objects.equals(id, rating.id);
     }
 
     @Override
     public int hashCode() {
-        return score.hashCode();
+        int result = Objects.hashCode(id);
+        result = 31 * result + Objects.hashCode(score);
+        result = 31 * result + Objects.hashCode(movie);
+        return result;
     }
 }

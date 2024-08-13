@@ -100,28 +100,22 @@ public class Movie {
     }
 
     @Override
-    public boolean equals(Object o) {
+    public final boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof Movie movie)) return false;
 
-        if (!id.equals(movie.id)) return false;
-        if (!Objects.equals(title, movie.title)) return false;
-        if (!Objects.equals(runtime, movie.runtime)) return false;
-        if (!Objects.equals(director, movie.director)) return false;
-        if (!Objects.equals(actors, movie.actors)) return false;
-        if (!Objects.equals(plot, movie.plot)) return false;
-        return Objects.equals(posterUrl, movie.posterUrl);
+        return Objects.equals(id, movie.id);
     }
 
     @Override
     public int hashCode() {
-        int result = id.hashCode();
-        result = 31 * result + (title != null ? title.hashCode() : 0);
-        result = 31 * result + (runtime != null ? runtime.hashCode() : 0);
-        result = 31 * result + (director != null ? director.hashCode() : 0);
-        result = 31 * result + (actors != null ? actors.hashCode() : 0);
-        result = 31 * result + (plot != null ? plot.hashCode() : 0);
-        result = 31 * result + (posterUrl != null ? posterUrl.hashCode() : 0);
+        int result = Objects.hashCode(id);
+        result = 31 * result + Objects.hashCode(title);
+        result = 31 * result + Objects.hashCode(runtime);
+        result = 31 * result + Objects.hashCode(director);
+        result = 31 * result + Objects.hashCode(actors);
+        result = 31 * result + Objects.hashCode(plot);
+        result = 31 * result + Objects.hashCode(posterUrl);
         return result;
     }
 }

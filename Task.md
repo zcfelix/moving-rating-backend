@@ -7,7 +7,7 @@
 - [x] add search support
 - [x] change the h2 mode to server
 - [x] web layer unit test
-- [ ] return average score after rating
+- [x] return average score after rating
 - [ ] repo layer unit test
 - [ ] refine the jpa query for getting movies with average rating
 - [ ] refactor: change the repository location and extract interfaces
