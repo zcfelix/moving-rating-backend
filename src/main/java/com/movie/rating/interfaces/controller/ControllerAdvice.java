@@ -28,11 +28,6 @@ public class ControllerAdvice {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ErrorDetail handleAppException(AppException e) {
         logger.info("Exception occurred, error code: {}, data: {}", e.getErrorCode(), e.getData());
-        return ErrorDetail.builder()
-                .code(e.getErrorCode())
-                .path(request.getRequestURI())
-                .timestamp(Instant.now())
-                .data(e.getData())
-                .build();
+        return new ErrorDetail(e.getErrorCode(), request.getRequestURI(), Instant.now(), e.getData());
     }
 }
