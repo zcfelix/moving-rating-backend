@@ -5,7 +5,7 @@
 - [x] add average rating cache when rating is added
 - [x] add average rating in list movies api response
 - [x] add search support
-- [ ] change the h2 mode to server
+- [x] change the h2 mode to server
 - [ ] web layer unit test
 - [ ] repo layer unit test
 - [ ] refine the jpa query for getting movies with average rating

@@ -3,7 +3,7 @@ server:
 
 spring:
   datasource:
-    url: jdbc:h2:file:./data/mydatabase;
+    url: jdbc:h2:tcp://localhost:9092/./data/mydatabase;AUTO_SERVER=TRUE
     username: sa
     password: password
     driver-class-name: org.h2.Driver
