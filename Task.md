@@ -1,14 +1,14 @@
 # Tasks
 - [x] add logs
-- [ ] add response links and entity after rating
+- [x] includes a rating result as body after rating
 - [x] change total count of page response
-- [ ] web layer unit test
-- [ ] repo layer unit test
 - [ ] add average rating cache when rating is added
 - [ ] add average rating in list movies api response
 - [ ] add search support
+- [ ] web layer unit test
+- [ ] repo layer unit test
 - [ ] refine the jpa query for getting movies with average rating
-- [ ] refactor: change the repository location
+- [ ] refactor: change the repository location and extract interfaces
 - [ ] refactor: add model, repo, service packages under domain package
 - [ ] README
 - [ ] update API documents

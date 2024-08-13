@@ -4,6 +4,7 @@ import com.movie.rating.appservice.MovieAppService;
 import com.movie.rating.domain.Movie;
 import com.movie.rating.interfaces.controller.representation.MovieRepresentation;
 import com.movie.rating.interfaces.controller.representation.PageRepresentation;
+import com.movie.rating.interfaces.controller.representation.RatingRepresentation;
 import com.movie.rating.interfaces.controller.request.RatingRequest;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -84,10 +85,11 @@ public class MovieController {
     }
 
     @PostMapping(path = "/{movieId}/ratings")
-    public ResponseEntity<Void> createRating(@PathVariable("movieId") Integer movieId,
+    public ResponseEntity<RatingRepresentation> createRating(@PathVariable("movieId") Integer movieId,
                                              @RequestBody @Valid RatingRequest ratingRequest) {
         logger.info("Received rating request for movieId: {}, with score: {}", movieId, ratingRequest.score());
-        movieAppService.rateMovie(movieId, ratingRequest);
-        return ResponseEntity.status(HttpStatus.CREATED).build();
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .body(RatingRepresentation.from(movieAppService.rateMovie(movieId, ratingRequest)));
     }
 }

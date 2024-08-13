@@ -32,14 +32,16 @@ public class MovieAppService {
     }
 
 
-    public void rateMovie(Integer movieId, RatingRequest ratingRequest) {
-        Rating rating = Rating.create(ratingRequest.score());
+    public Rating rateMovie(Integer movieId, RatingRequest ratingRequest) {
+        Rating rating = Rating.create(ratingRequest.score()); // has business validation when create the rating object
 
         Movie movie = movieRepository
                 .findById(movieId)
                 .orElseThrow(() -> new MovieNotExistException(Map.of("movieId", movieId)));
 
-        movie.addRating(rating);
+        Rating savedRating = movie.addRating(rating);
         movieRepository.save(movie);
+
+        return savedRating;
     }
 }

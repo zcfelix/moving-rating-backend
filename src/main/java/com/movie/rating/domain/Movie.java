@@ -31,9 +31,10 @@ public class Movie {
     public Movie() {
     }
 
-    public void addRating(Rating rating) {
+    public Rating addRating(Rating rating) {
         rating.setMovie(this);
         this.ratings.add(rating);
+        return rating;
     }
 
     public Integer getId() {

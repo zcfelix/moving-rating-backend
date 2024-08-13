@@ -33,6 +33,8 @@ class MovieControllerTest extends AbstractControllerTest {
                         .contentType("application/json")
                         .content("""
                                 {"score": 5}"""))
-                .andExpect(status().isCreated());
+                .andExpect(status().isCreated())
+                .andExpect(jsonPath("$.movieId").value(1))
+                .andExpect(jsonPath("$.score").value(5));
     }
 }
