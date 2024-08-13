@@ -2,8 +2,8 @@
 - [x] add logs
 - [x] includes a rating result as body after rating
 - [x] change total count of page response
-- [ ] add average rating cache when rating is added
-- [ ] add average rating in list movies api response
+- [x] add average rating cache when rating is added
+- [x] add average rating in list movies api response
 - [ ] add search support
 - [ ] web layer unit test
 - [ ] repo layer unit test
