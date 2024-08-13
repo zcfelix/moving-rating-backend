@@ -1,7 +1,12 @@
 # Tasks
-- [ ] add logs
-- [ ] add average rating in movies response
+- [x] add logs
+- [ ] add response links and entity after rating
+- [ ] change total count of page response
 - [ ] add average rating cache when rating is added
+- [ ] add average rating in list movies api response
+- [ ] add search support
 - [ ] refine the jpa query for getting movies with average rating
 - [ ] refactor: change the repository location
 - [ ] refactor: add model, repo, service packages under domain package
+- [ ] README
+- [ ] update API documents
