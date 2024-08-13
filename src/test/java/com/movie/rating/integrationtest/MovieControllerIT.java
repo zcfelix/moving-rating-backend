@@ -9,7 +9,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 
 // prepare test data throw data migrations, see files under src/test/resources/db/migration/test/
-class MovieControllerTest extends AbstractControllerTest {
+class MovieControllerIT extends AbstractControllerIT {
 
     @Test
     void should_return_200_when_list_movies_successful() throws Exception {
