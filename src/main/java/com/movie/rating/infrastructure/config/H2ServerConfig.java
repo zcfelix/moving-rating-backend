@@ -16,7 +16,7 @@ public class H2ServerConfig {
     @PostConstruct
     public void startH2Server() throws SQLException {
         if (!isPortInUse(9092)) {
-            h2Server = Server.createTcpServer("-tcp", "-tcpAllowOthers", "-tcpPort", "9092").start();
+            h2Server = Server.createTcpServer("-tcp", "-tcpAllowOthers", "-tcpPort", "9092", "-ifNotExists").start();
         }
     }
 

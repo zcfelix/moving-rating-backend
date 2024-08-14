@@ -12,6 +12,9 @@ spring:
     locations: classpath:db/migration
     validate-on-migrate: true
     validate-migration-naming: true
+    user: sa
+    password: password
+    url: jdbc:h2:tcp://localhost:9092/./data/mydatabase;AUTO_SERVER=TRUE
   h2:
     console:
       enabled: true

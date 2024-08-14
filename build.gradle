@@ -1,69 +1,133 @@
+import org.flywaydb.gradle.task.AbstractFlywayTask
+
 plugins {
-	id 'java'
-	id 'org.springframework.boot' version '3.3.2'
-	id 'io.spring.dependency-management' version '1.1.6'
-	id 'org.flywaydb.flyway' version '10.17.0'
+    id 'java'
+    id 'org.springframework.boot' version '3.3.2'
+    id 'io.spring.dependency-management' version '1.1.6'
+    id 'org.flywaydb.flyway' version '10.17.0'
 }
 
 group = 'com.movie'
 version = '0.0.1-SNAPSHOT'
 
 java {
-	sourceCompatibility = JavaVersion.VERSION_21
-	targetCompatibility = JavaVersion.VERSION_21
-	toolchain {
-		languageVersion = JavaLanguageVersion.of(21)
-	}
+    sourceCompatibility = JavaVersion.VERSION_21
+    targetCompatibility = JavaVersion.VERSION_21
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(21)
+    }
 }
 
 repositories {
-	mavenCentral()
-	maven {
-		url "https://plugins.gradle.org/m2/"
-	}
+    mavenCentral()
+    maven {
+        url "https://plugins.gradle.org/m2/"
+    }
 }
 
 dependencies {
-	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-	implementation 'org.springframework.boot:spring-boot-starter-web'
-	implementation 'org.flywaydb:flyway-core'
-	implementation 'com.h2database:h2:2.2.220'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.flywaydb:flyway-core'
+    implementation 'com.h2database:h2:2.2.220'
     implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.1.0'
-	testImplementation 'org.springframework.boot:spring-boot-starter-test'
-	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+}
+
+ext {
+    h2ServerPort = 9092
 }
 
 tasks.named('test') {
-	useJUnitPlatform()
-	jvmArgs("-noverify", "-XX:+EnableDynamicAgentLoading", "-Djdk.instrument.traceUsage")
+    useJUnitPlatform()
+    jvmArgs("-noverify", "-XX:+EnableDynamicAgentLoading", "-Djdk.instrument.traceUsage")
 }
 
 // set flyway configuration
 flyway {
-	url = "jdbc:h2:tcp://localhost:9092/${System.getProperty('user.dir')}/data/mydatabase;AUTO_SERVER=TRUE"
-	user = 'sa'
-	password = 'password'
-	locations = ['filesystem:src/main/resources/db/migration']
-	cleanDisabled = false
+    url = "jdbc:h2:tcp://localhost:${h2ServerPort}/${System.getProperty('user.dir')}/data/mydatabase;AUTO_SERVER=TRUE"
+    user = 'sa'
+    password = 'password'
+    locations = ['filesystem:src/main/resources/db/migration']
+    cleanDisabled = false
+}
+
+def isPortInUse(int port) {
+    try {
+        new ServerSocket(port).close()
+        return false
+    } catch (IOException ignored) {
+        return true
+    }
+}
+
+def startH2Server() {
+    if (isPortInUse(h2ServerPort)) {
+        println "Port $h2ServerPort is already in use. Please check if H2 server is already running."
+        return
+    }
+    def classpath = sourceSets.main.runtimeClasspath.asPath
+    def processBuilder = new ProcessBuilder(
+            'java',
+            '-cp', classpath,
+            'org.h2.tools.Server',
+            '-tcp', '-tcpAllowOthers', '-tcpPort', "${h2ServerPort}", '-ifNotExists'
+    )
+    processBuilder.redirectErrorStream(true)
+    def process = processBuilder.start()
+
+    project.ext.h2ServerProcess = process
+    println("H2 server process info: ${process}")
+    return process
+}
+
+def stopH2Server() {
+    def process = project.ext.h2ServerProcess
+    println("H2 server process info: ${process}")
+
+    try {
+        process.destroy()
+        println "H2 server stopped."
+    } catch (Exception e) {
+        println "Error occurred while stopping H2 server: ${e.message}"
+    }
+}
+
+tasks.register('startH2Server') {
+    doLast {
+        startH2Server()
+    }
+}
+
+tasks.register('stopH2Server') {
+    doLast {
+        stopH2Server()
+    }
+}
+
+tasks.withType(AbstractFlywayTask).configureEach {
+    dependsOn startH2Server
+    finalizedBy stopH2Server
 }
 
 tasks.register('createMigration') {
-	doLast {
-		if (!project.hasProperty('description')) {
-			throw new GradleException("Please provide a description for the migration using -Pdescription=<description>")
-		}
+    doLast {
+        if (!project.hasProperty('description')) {
+            throw new GradleException("Please provide a description for the migration using -Pdescription=<description>")
+        }
 
-		def description = project.property('description')
-		def timestamp = new Date().format("yyyyMMddHHmmss")
-		def migrationName = "V${timestamp}__${description}.sql"
-		def migrationDir = file('src/main/resources/db/migration')
+        def description = project.property('description')
+        def timestamp = new Date().format("yyyyMMddHHmmss")
+        def migrationName = "V${timestamp}__${description}.sql"
+        def migrationDir = file('src/main/resources/db/migration')
 
-		if (!migrationDir.exists()) {
-			migrationDir.mkdirs()
-		}
+        if (!migrationDir.exists()) {
+            migrationDir.mkdirs()
+        }
 
-		def migrationFile = new File(migrationDir, migrationName)
-		migrationFile.createNewFile()
-		println "Created migration file: ${migrationFile.path}"
-	}
+        def migrationFile = new File(migrationDir, migrationName)
+        migrationFile.createNewFile()
+        println "Created migration file: ${migrationFile.path}"
+    }
 }
