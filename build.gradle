@@ -62,47 +62,37 @@ def isPortInUse(int port) {
     }
 }
 
-def startH2Server() {
-    if (isPortInUse(h2ServerPort)) {
-        println "Port $h2ServerPort is already in use. Please check if H2 server is already running."
-        return
-    }
-    def classpath = sourceSets.main.runtimeClasspath.asPath
-    def processBuilder = new ProcessBuilder(
-            'java',
-            '-cp', classpath,
-            'org.h2.tools.Server',
-            '-tcp', '-tcpAllowOthers', '-tcpPort', "${h2ServerPort}", '-ifNotExists'
-    )
-    processBuilder.redirectErrorStream(true)
-    def process = processBuilder.start()
-
-    project.ext.h2ServerProcess = process
-    println("H2 server process info: ${process}")
-    return process
-}
-
-def stopH2Server() {
-    def process = project.ext.h2ServerProcess
-    println("H2 server process info: ${process}")
-
-    try {
-        process.destroy()
-        println "H2 server stopped."
-    } catch (Exception e) {
-        println "Error occurred while stopping H2 server: ${e.message}"
-    }
-}
-
 tasks.register('startH2Server') {
     doLast {
-        startH2Server()
+        if (isPortInUse(h2ServerPort)) {
+            println "Port $h2ServerPort is already in use. Please check if H2 server is already running."
+            return
+        }
+        def classpath = sourceSets.main.runtimeClasspath.asPath
+        def processBuilder = new ProcessBuilder(
+                'java',
+                '-cp', classpath,
+                'org.h2.tools.Server',
+                '-tcp', '-tcpAllowOthers', '-tcpPort', "${h2ServerPort}", '-ifNotExists'
+        )
+        processBuilder.redirectErrorStream(true)
+        def process = processBuilder.start()
+        project.ext.h2ServerProcess = process
+        println("H2 server process info: ${process}")
+        return process
     }
 }
 
 tasks.register('stopH2Server') {
     doLast {
-        stopH2Server()
+        def process = project.ext.h2ServerProcess
+        println("H2 server process info: ${process}")
+        try {
+            process.destroy()
+            println "H2 server stopped."
+        } catch (Exception e) {
+            println "Error occurred while stopping H2 server: ${e.message}"
+        }
     }
 }
 
