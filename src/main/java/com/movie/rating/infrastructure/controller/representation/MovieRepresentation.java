@@ -7,6 +7,7 @@ import static com.movie.rating.infrastructure.controller.representation.AverageR
 public record MovieRepresentation(
         Integer id,
         String title,
+        String year,
         Integer runtime,
         String director,
         String actors,
@@ -19,6 +20,7 @@ public record MovieRepresentation(
         return new MovieRepresentation(
                 movie.getId(),
                 movie.getTitle(),
+                movie.getYear(),
                 movie.getRuntime(),
                 movie.getDirector(),
                 movie.getActors(),

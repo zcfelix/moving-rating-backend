@@ -13,6 +13,8 @@ public class Movie {
     @Id
     private Integer id;
     private String title;
+    @Column(name = "release_year")
+    private String year;
     private Integer runtime;
     private String director;
     private String actors;
@@ -99,6 +101,14 @@ public class Movie {
         this.posterUrl = posterUrl;
     }
 
+    public String getYear() {
+        return year;
+    }
+
+    public void setYear(String year) {
+        this.year = year;
+    }
+
     @Override
     public final boolean equals(Object o) {
         if (this == o) return true;
@@ -116,6 +126,7 @@ public class Movie {
         result = 31 * result + Objects.hashCode(actors);
         result = 31 * result + Objects.hashCode(plot);
         result = 31 * result + Objects.hashCode(posterUrl);
+        result = 31 * result + Objects.hashCode(year);
         return result;
     }
 }

@@ -51,6 +51,7 @@ public class MovieController {
                                                             {
                                                                 "id": 1,
                                                                 "title": "Inception",
+                                                                "year": "2010",
                                                                 "runtime": 148,
                                                                 "director": "Christopher Nolan",
                                                                 "actors": "Leonardo DiCaprio, Joseph Gordon-Levitt, Ellen Page",
@@ -60,6 +61,7 @@ public class MovieController {
                                                             {
                                                                 "id": 2,
                                                                 "title": "The Matrix",
+                                                                "year": "1993",
                                                                 "runtime": 136,
                                                                 "director": "Lana Wachowski, Lilly Wachowski",
                                                                 "actors": "Keanu Reeves, Laurence Fishburne, Carrie-Anne Moss",
