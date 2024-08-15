@@ -21,6 +21,7 @@ class MovieControllerIT extends AbstractControllerIT {
                 .andExpect(jsonPath("$.totalSize").value(25)) // prepared 25 movies in test data
                 .andExpect(jsonPath("$.contents[0].id").isNumber())
                 .andExpect(jsonPath("$.contents[0].title").isString())
+                .andExpect(jsonPath("$.contents[0].genres").isArray())
                 .andExpect(jsonPath("$.contents[0].year").isString())
                 .andExpect(jsonPath("$.contents[0].runtime").isNumber())
                 .andExpect(jsonPath("$.contents[0].director").isString())
@@ -39,6 +40,7 @@ class MovieControllerIT extends AbstractControllerIT {
                 .andExpect(jsonPath("$.totalSize").value(1))
                 .andExpect(jsonPath("$.contents[0].id").isNumber())
                 .andExpect(jsonPath("$.contents[0].title").isString())
+                .andExpect(jsonPath("$.contents[0].genres").isArray())
                 .andExpect(jsonPath("$.contents[0].year").isString())
                 .andExpect(jsonPath("$.contents[0].runtime").isNumber())
                 .andExpect(jsonPath("$.contents[0].director").isString())

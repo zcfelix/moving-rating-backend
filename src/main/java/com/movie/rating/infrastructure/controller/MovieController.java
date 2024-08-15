@@ -51,6 +51,7 @@ public class MovieController {
                                                             {
                                                                 "id": 1,
                                                                 "title": "Inception",
+                                                                "genres": ["Action", "Adventure", "Sci-Fi"],
                                                                 "year": "2010",
                                                                 "runtime": 148,
                                                                 "director": "Christopher Nolan",
@@ -61,6 +62,7 @@ public class MovieController {
                                                             {
                                                                 "id": 2,
                                                                 "title": "The Matrix",
+                                                                "genres": ["Action", "Sci-Fi"],
                                                                 "year": "1993",
                                                                 "runtime": 136,
                                                                 "director": "Lana Wachowski, Lilly Wachowski",

@@ -1,6 +1,9 @@
 package com.movie.rating.infrastructure.controller.representation;
 
+import com.movie.rating.domainmodel.Genre;
 import com.movie.rating.domainmodel.Movie;
+
+import java.util.List;
 
 import static com.movie.rating.infrastructure.controller.representation.AverageRatingFormatter.formatAverageRating;
 
@@ -13,7 +16,8 @@ public record MovieRepresentation(
         String actors,
         String plot,
         String posterUrl,
-        String averageRating) {
+        String averageRating,
+        List<String> genres) {
 
 
     public static MovieRepresentation from(Movie movie) {
@@ -26,7 +30,8 @@ public record MovieRepresentation(
                 movie.getActors(),
                 movie.getPlot(),
                 movie.getPosterUrl(),
-                formatAverageRating(movie.getAverageRating())
+                formatAverageRating(movie.getAverageRating()),
+                movie.getGenres().stream().map(Genre::getName).toList()
         );
     }
 

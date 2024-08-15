@@ -28,6 +28,14 @@ public class Movie {
     @Column(name = "average_rating")
     private Double averageRating;
 
+    @ManyToMany
+    @JoinTable(
+            name = "MOVIEGENRES",
+            joinColumns = @JoinColumn(name = "movie_id"),
+            inverseJoinColumns = @JoinColumn(name = "genre_id")
+    )
+    private Set<Genre> genres = new HashSet<>();
+
     public Movie() {
     }
 
@@ -107,6 +115,14 @@ public class Movie {
 
     public void setYear(String year) {
         this.year = year;
+    }
+
+    public Set<Genre> getGenres() {
+        return genres;
+    }
+
+    public void setGenres(Set<Genre> genres) {
+        this.genres = genres;
     }
 
     @Override
